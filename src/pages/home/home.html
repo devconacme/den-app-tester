@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Den's App Tester Tool
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <!-- Pull down to refresh list action -->
+  <ion-refresher (ionRefresh)="goRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-item-divider color="light">List of URLs</ion-item-divider>
+  <!-- The list grid -->
+  <ion-list #urlList [hidden]="shownUrls === 0">
+    <ion-item-sliding #slidingItem *ngFor="let urlentry of shownUrls"> <!-- Slider list -->
+      <ion-item>
+        <h2>{{urlentry.path}}</h2>
+        <!-- <h3>{{urlentry.id}}</h3> -->
+        <!-- <p>I've had a pretty messed up day. If we just...</p> -->
+      </ion-item>        
+      <ion-item-options>  <!-- Slider list option -->
+        <button ion-button color="success" (click)="goOpenLocalList(slidingItem, urlentry)">
+          <ion-icon name="play"></ion-icon>
+          Run
+        </button>         
+        <button ion-button color="dark" (click)="goEditLocal(slidingItem, urlentry)">
+          <ion-icon name="create"></ion-icon>
+          Edit
+        </button>  
+        <button ion-button color="danger" (click)="goDeleteLocal(slidingItem, urlentry)">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>          
+      </ion-item-options>
+    </ion-item-sliding>  
+  </ion-list>
+  <!-- Hide when the list is zero -->
+  <ion-list-header [hidden]="shownUrls > 0">
+      No Urls Found
+  </ion-list-header>     
+  <!-- The Fab menu bar -->
+  <ion-fab bottom right #fab>
+    <button ion-fab color="primary"><ion-icon name="list"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button ion-fab color="secondary" (click)="goCreateLocalUrl(fab)">
+        <ion-label>Add URL</ion-label>
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>  
+  <iframe class="webPage" [src]="page" width="100%" height="250" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>   
+</ion-content>
